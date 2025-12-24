@@ -1,0 +1,205 @@
+/* Базовые стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    background: #0a0a0a;
+}
+
+/* Хедер */
+.main-header {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.header-bg video,
+.header-bg img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    opacity: 0.7;
+}
+
+.bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 30%, rgba(10,10,10,0.9) 80%);
+    z-index: 1;
+}
+
+.header-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    width: 90%;
+    max-width: 1200px;
+}
+
+/* Логотип */
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 8vw;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 5rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    transition: all 0.8s ease;
+    cursor: default;
+}
+
+/* Концепт-навигация */
+.concept-nav {
+    position: relative;
+    min-height: 200px;
+}
+
+.concept-words {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem 4rem;
+    margin-bottom: 3rem;
+}
+
+.concept-words li {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    padding: 0.5rem 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.concept-words li:hover {
+    color: #fff;
+    transform: scale(1.15);
+    text-shadow: 0 0 15px rgba(255, 190, 11, 0.5);
+}
+
+/* Классическая навигация, скрытая по умолчанию */
+.classic-nav {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    transition: opacity 0.6s ease;
+}
+
+.concept-nav.active .classic-nav {
+    opacity: 1;
+    height: auto;
+}
+
+.nav-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #FFBE0B;
+    border-bottom: 1px solid #FFBE0B;
+}
+
+.nav-link.sub {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Слоган и индикатор */
+.header-tagline {
+    margin-top: 4rem;
+    font-style: italic;
+    opacity: 0.8;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.mouse {
+    width: 30px;
+    height: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    position: relative;
+}
+
+.wheel {
+    width: 4px;
+    height: 10px;
+    background-color: #FFBE0B;
+    border-radius: 2px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollWheel 2s infinite;
+}
+
+@keyframes scrollWheel {
+    0% { top: 10px; opacity: 1; }
+    100% { top: 25px; opacity: 0; }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .concept-words {
+        gap: 1.5rem;
+    }
+    .concept-words li {
+        font-size: 1.4rem;
+    }
+    .classic-nav {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .logo {
+        font-size: 12vw;
+        margin-bottom: 3rem;
+    }
+}

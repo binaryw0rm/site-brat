@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мастерская "БРАТ" | Творчество по металлу, дереву, коже</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital@0;1&family=Unbounded:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            background: #0a0a0a;
+        }
+
+        /* Хедер */
+        .main-header {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+        }
+
+        .bg-overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: url('back10.jpg') center/cover no-repeat;
+		}
+
+        .header-content {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 1200px;
+            text-align: center;
+            padding-top: 0;
+            transition: padding-top 1.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+				/* Логотип и слоган - ИЗНАЧАЛЬНО ВИДНЫ */
+				.logo-container {
+					position: relative;
+					display: inline-block;
+					transition: all 1.6s cubic-bezier(0.19, 1, 0.22, 1);
+				}
+
+				.logo {
+			font-family: 'Unbounded', sans-serif;
+			font-size: 12vw;
+			font-weight: 700;
+			letter-spacing: 0.15em;
+			color: #fff;
+			text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.8);
+			transition: all 1.6s cubic-bezier(0.19, 1, 0.22, 1);
+			cursor: pointer;
+			position: relative;
+			display: inline-block;
+			/* Компенсируем letter-spacing для правильной центровки */
+			padding: 0 0.15em;
+			margin: 0 -0.15em;
+		}
+
+		/* Убираем старый .logo-line и используем псевдоэлемент */
+		.logo::after {
+			content: '';
+			position: absolute;
+			bottom: -25px;
+			left: 20px; /* Отступ слева */
+			right: 20px; /* Отступ справа для симметрии */
+			height: 2px;
+			background: white;
+			transform: scaleX(0);
+			transform-origin: center;
+			transition: transform 1s ease 0.5s;
+		}
+
+		/* Или если нужно именно на 20px сдвиг влево: */
+		.logo::after {
+			content: '';
+			position: absolute;
+			bottom: -25px;
+			left: -20px; /* Сдвиг влево */
+			width: calc(100% + 40px); /* Компенсируем сдвиг */
+			height: 2px;
+			background: white;
+			transform: scaleX(0);
+			transform-origin: center;
+			transition: transform 1s ease 0.5s;
+		}
+
+		.main-header.active .logo::after {
+			transform: scaleX(1);
+		}
+
+        /* Слоган - ВИДЕН ИЗНАЧАЛЬНО */
+        .tagline {
+            position: absolute;
+            bottom: -60px;
+            left: 0;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.3em;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            opacity: 1;
+            transition: opacity 0.8s ease;
+        }
+
+        /* Эффект при наведении на логотип */
+        .logo:hover {
+            color: ;
+            transform: scale(1.05);
+        }
+
+        /* Когда хедер активирован (клик или скролл) */
+        .main-header.active .header-content {
+            padding-top: 80px; /* Поднимаем весь контент вверх */
+        }
+
+        .main-header.active .logo-container {
+            transform: translateY(0); /* Убираем трансформ, так как поднимаем весь контент */
+        }
+
+        .main-header.active .logo {
+            font-size: 5vw;
+            cursor: default;
+        }
+
+        .main-header.active .logo:hover {
+            color: #fff;
+            transform: scale(1);
+        }
+
+        .main-header.active .logo-line {
+            transform: scaleX(1); /* Показываем белую линию */
+        }
+
+        .main-header.active .tagline {
+            opacity: 0; /* Прячем слоган при активации */
+        }
+
+        /* Концепт-навигация - СКРЫТА ИЗНАЧАЛЬНО, позиционируем ниже */
+        .concept-nav {
+            position: relative;
+            height: 0;
+            opacity: 0;
+            transform: translateY(0);
+            transition: all 1.6s cubic-bezier(0.19, 1, 0.22, 1);
+            pointer-events: none;
+            margin-top: 0;
+        }
+
+        .main-header.active .concept-nav {
+            height: auto;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+            margin-top: 100px; /* Добавляем отступ сверху для опускания слов */
+        }
+
+        /* Ключевые слова - ОПУЩЕНЫ НИЖЕ */
+        .concept-words {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem 3rem; /* Уменьшил горизонтальный gap для лучшего вида */
+            margin-bottom: 3rem;
+            position: relative;
+            top: 0;
+        }
+
+        .concept-words li {
+            font-size: 1.6rem; /* Немного уменьшил размер */
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            padding: 0.8rem 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+       
+
+        /* Ховер-эффект */
+        .concept-words li:hover {
+            color: #fff;
+            transform: scale(1.15) rotate(0deg) !important;
+            text-shadow: 0 0 15px rgba(0, 75, 88, 0.5);
+        }
+
+        /* Классическая навигация - тоже опускаем */
+        .classic-nav {
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            transition: opacity 0.8s ease;
+            margin-top: 20px;
+        }
+
+        .concept-nav.active .classic-nav {
+            opacity: 1;
+            height: auto;
+        }
+
+        .nav-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        /* Показываем нужный блок при наведении на слово */
+        .concept-words li[data-target="about"]:hover ~ .classic-nav #navAbout,
+        .concept-words li[data-target="catalog"]:hover ~ .classic-nav #navCatalog,
+        .concept-words li[data-target="contact"]:hover ~ .classic-nav #navContact {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #004B58;
+            border-bottom: 1px solid #004B58;
+        }
+
+        .nav-link.sub {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Индикатор скролла */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            opacity: 1;
+            transition: opacity 0.8s ease;
+        }
+
+        .main-header.active .scroll-indicator {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .mouse {
+            width: 30px;
+            height: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .wheel {
+            width: 4px;
+            height: 8px;
+            background-color: #004B58;
+            border-radius: 2px;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scrollWheel 2s infinite;
+        }
+
+        @keyframes scrollWheel {
+            0% { top: 10px; opacity: 1; }
+            100% { top: 20px; opacity: 0; }
+        }
+
+        /* Анимация для привлечения внимания к логотипу */
+        @keyframes gentlePulse {
+            0%, 100% { 
+                opacity: 1;
+                text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.8);
+            }
+            50% { 
+                opacity: 0.9;
+                text-shadow: 3px 3px 12px rgba(0, 75, 88, 0.3);
+            }
+        }
+
+        /* Основной контент */
+        .content-section {
+            min-height: 100vh;
+            padding: 100px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #004B58;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 18vw;
+            }
+            
+            .main-header.active .logo {
+                font-size: 8vw;
+            }
+            
+            .logo-line {
+                bottom: -20px;
+            }
+            
+            .tagline {
+                font-size: 0.7rem;
+                bottom: -50px;
+            }
+            
+            .concept-words {
+                gap: 1.2rem;
+            }
+            
+            .concept-words li {
+                font-size: 1.2rem;
+                padding: 0.6rem 0.8rem;
+            }
+            
+            .main-header.active .concept-nav {
+                margin-top: 60px; /* Меньший отступ на мобильных */
+            }
+            
+            .classic-nav {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tagline {
+                font-size: 0.6rem;
+                letter-spacing: 0.2em;
+                bottom: -45px;
+            }
+            
+            .concept-words li {
+                font-size: 1rem;
+            }
+            
+            .nav-link {
+                font-size: 1rem;
+                padding: 0.4rem 1rem;
+            }
+        }
+
+        /* Ховер эффект для кнопок навигации */
+        .concept-words li span {
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .concept-words li:hover span {
+            transform: translateY(-2px);
+        }
+		.concept-link {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.concept-words li:hover .concept-link {
+    color: #fff;
+}
+    </style>
+</head>
+<body>
+    <header class="main-header" id="header">
+        <!-- Фоновое видео или изображение -->
+        <div class="header-bg">
+            <div class="bg-overlay"></div>
+        </div>
+
+        <!-- Контент хедера -->
+        <div class="header-content">
+            <div class="logo-container">
+                <div class="logo" id="logo">БРАТ</div>
+                <div class="logo-line"></div>
+                <div class="tagline">Творческая мастерская. От идеи до воплощения.</div>
+            </div>
+
+            <nav class="concept-nav" id="conceptNav">
+                <ul class="concept-words">
+    <li data-target="about">
+        <a href="pages/project_1.html" class="concept-link">ПРОЕКТ "БРАТ"</a>
+    </li>
+    <li data-target="catalog">
+        <a href="pages/services_2.html" class="concept-link">УСЛУГИ</a>
+    </li>
+    <li data-target="catalog">
+        <a href="pages/portfolio_1_1.html" class="concept-link">ПОРТФОЛИО</a>
+    </li>
+    <li data-target="catalog">
+        <a href="pages/working_3.html" class="concept-link">КАК РАБОТАЕМ</a>
+    </li>
+    <li data-target="contact">
+        <a href="pages/contact_2.html" class="concept-link">КОНТАКТ</a>
+    </li>
+</ul>
+
+                <div class="classic-nav">
+                    <div class="nav-block" id="navAbout">
+                        <a href="#about" class="nav-link">О НАС</a>
+                        <a href="#projects" class="nav-link sub">Реализованные проекты</a>
+                    </div>
+                    <div class="nav-block" id="navCatalog">
+                        <a href="#catalog" class="nav-link">КАТАЛОГ</a>
+                        <a href="#catalog-metal" class="nav-link sub">Металлические скульптуры</a>
+                    </div>
+                    <div class="nav-block" id="navContact">
+                        <a href="#contact" class="nav-link">ОБРАТНАЯ СВЯЗЬ</a>
+                        <a href="#brief" class="nav-link sub">Обсудить проект</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Индикатор скролла -->
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Здесь будет основной контент страницы -->
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.getElementById('header');
+            const logo = document.getElementById('logo');
+            const conceptNav = document.getElementById('conceptNav');
+            const conceptWords = document.querySelectorAll('.concept-words li');
+            const navBlocks = {
+                about: document.getElementById('navAbout'),
+                catalog: document.getElementById('navCatalog'),
+                contact: document.getElementById('navContact')
+            };
+            let isHeaderActive = false;
+
+            // Функция активации меню
+            function activateMenu() {
+                if (!isHeaderActive) {
+                    header.classList.add('active');
+                    conceptNav.classList.add('active');
+                    isHeaderActive = true;
+                    
+                    // Добавляем небольшой delay для плавности
+                    setTimeout(() => {
+                        logo.style.animation = 'none';
+                    }, 1600);
+                }
+            }
+
+            // Функция деактивации (только если мы в самом верху)
+            function deactivateMenu() {
+                if (isHeaderActive && window.scrollY === 0) {
+                    header.classList.remove('active');
+                    conceptNav.classList.remove('active');
+                    isHeaderActive = false;
+                }
+            }
+
+            // 1. Активация при клике на логотип
+            logo.addEventListener('click', function(e) {
+                activateMenu();
+            });
+
+            // 2. Активация при скролле
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 0) {
+                    activateMenu();
+                } else {
+                    // Если вернулись на самый верх
+                    deactivateMenu();
+                }
+            });
+
+            // 3. Активация при прокрутке колесиком мыши
+            let wheelTimeout;
+            window.addEventListener('wheel', function(e) {
+                // Если еще не активировано
+                if (!isHeaderActive) {
+                    activateMenu();
+                }
+                
+                clearTimeout(wheelTimeout);
+            });
+
+            // Обработка наведения на ключевые слова
+            conceptWords.forEach(word => {
+                word.addEventListener('mouseenter', function() {
+                    const target = this.getAttribute('data-target');
+                    
+                    // Скрываем все блоки
+                    Object.values(navBlocks).forEach(block => {
+                        block.style.opacity = '0';
+                        block.style.transform = 'translateY(20px)';
+                        block.style.pointerEvents = 'none';
+                    });
+                    
+                    // Показываем нужный блок
+                    if (navBlocks[target]) {
+                        setTimeout(() => {
+                            navBlocks[target].style.opacity = '1';
+                            navBlocks[target].style.transform = 'translateY(0)';
+                            navBlocks[target].style.pointerEvents = 'all';
+                        }, 150);
+                    }
+                });
+
+                // Клик по слову - скролл к секции
+                word.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    const section = document.getElementById(target);
+                    
+                    if (section) {
+                        section.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Скрываем навигацию при уходе мыши
+            conceptNav.addEventListener('mouseleave', function() {
+                Object.values(navBlocks).forEach(block => {
+                    block.style.opacity = '0';
+                    block.style.transform = 'translateY(20px)';
+                    block.style.pointerEvents = 'none';
+                });
+            });
+
+            // Плавный скролл для ссылок в навигации
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Мигание логотипа для привлечения внимания
+            setTimeout(() => {
+                if (!isHeaderActive) {
+                    logo.style.animation = 'gentlePulse 3s ease-in-out 2';
+                    setTimeout(() => {
+                        if (!isHeaderActive) {
+                            logo.style.animation = '';
+                        }
+                    }, 6000);
+                }
+            }, 2000);
+        });
+		
+		// Система навигации между страницами
+class PageNavigation {
+    constructor() {
+        this.currentPage = 'home';
+        this.init();
+    }
+    
+    init() {
+        // Обработка кликов по навигации
+        document.querySelectorAll('[data-page]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = link.getAttribute('data-page');
+                this.navigateTo(page);
+            });
+        });
+    }
+    
+    navigateTo(page) {
+        // Эффект перехода
+        document.body.style.opacity = '0.7';
+        document.body.style.transform = 'scale(0.98)';
+        
+        setTimeout(() => {
+            window.location.href = `pages/${page}.html`;
+        }, 400);
+    }
+}
+
+new PageNavigation();
+    </script>
+</body>
+</html>
